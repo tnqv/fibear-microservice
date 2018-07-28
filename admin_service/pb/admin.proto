@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+package admin;
+
+
+service Admin {
+  rpc Login (LoginRequest) returns (LoginResponse){
+    option (google.api.http) = {
+         post: "/v1/admin/login"
+         body: "*"
+      };
+  };
+  rpc GetListUser (google.protobuf.Empty) returns (ListUsersResponse){
+    option (google.api.http) = {
+      get: "/v1/admin/users"
+    };
+  };
+
+  rpc GetListReviews(google.protobuf.Empty) returns (ListReviewsResponse){
+    option (google.api.http) = {
+      get: "/v1/admin/reviews"
+    };
+  };
+
+  rpc GetListBlocks(google.protobuf.Empty) returns (ListBlocksResponse){
+    option (google.api.http) = {
+      get: "/v1/admin/blocks"
+    };
+  };
+}
+
+// The request message containing the username and password.
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+// The response message containing the JWT token.
+message LoginResponse {
+  string token = 1;
+  User user = 2;
+}
+
+
+message ListReviewsResponse {
+    repeated Review reviews = 1;
+}
+
+message ListBlocksResponse {
+   repeated Block blocks = 1;
+}
+
+message ListUsersResponse{
+   repeated User users = 1;
+   repeated User bears = 2;
+}
+
+message UserBlockDate {
+uint32 id = 1;
+Block block = 2;
+string blockDate = 3;
+string description = 4;
+string status = 5;
+double price = 6;
+bool isOrdered = 7;
+}
+
+message Block {
+  uint32 id = 1;
+  string description = 2;
+  string name = 3;
+  string hourStart = 4;
+  string hourEnd = 5;
+  bool isCreated = 7;
+}
+
+message Review {
+ uint32 id = 1;
+ User userReviewed  = 2;
+ uint64 rate = 3;
+ User user = 4;
+ string description = 5;
+}
+
+message BlockOrder{
+uint32 id = 1;
+UserBlockDate userBlockDate = 2;
+User user = 3;
+string status =4;
+}
+
+message User {
+uint32 id = 1;
+string email = 2;
+string username = 3;
+string passwordHash = 4;
+string createdAt = 5;
+string updatedAt = 6;
+string phone = 7;
+uint32 roleId = 8;
+Profile profile = 9;
+string deviceToken = 10;
+}
+
+message Profile {
+uint32 id = 1;
+string avatar = 2;
+string firstname = 3;
+string lastname = 4;
+string birthdate = 5;
+uint32 sex = 6;
+Province province = 7;
+double starRate = 8;
+string description = 9;
+}
+
+message Province {
+uint32 provinceId = 1;
+string provinceName = 2;
+}
+

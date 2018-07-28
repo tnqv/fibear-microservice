@@ -1,0 +1,41 @@
+version: '3'
+services:
+  database:
+    container_name: database
+    build: ./mysql_db
+    environment:
+       - MYSQL_ROOT_PASSWORD=password
+       - MYSQL_DATABASE=fibear
+       - MYSQL_ALLOW_EMPTY_PASSWORD
+    networks:
+      - fibear-network
+
+  gateway_service:
+    container_name: gateway_service
+    build: ./gateway-proxy
+    networks:
+     - fibear-network
+    ports:
+     - "8080:8080"
+  auth_service:
+    container_name: auth_service
+    build: ./auth_service
+    ports:
+     - "7800:7800"
+    depends_on:
+     - gateway_service
+    networks:
+     - fibear-network
+  bear_service:
+    container_name: bear_service
+    build: ./bear_service
+    ports:
+      - "7801:7801"
+    depends_on:
+      - gateway_service
+    networks:
+      - fibear-network
+
+networks:
+     fibear-network:
+       driver: "bridge"

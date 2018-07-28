@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+package order;
+
+service Order {
+    rpc GetListOrders(ListOrderRequest) returns(ListOrderResponse){
+        option (google.api.http) = {
+            get: "/v1/order/orders/{userId}"
+        };
+    };
+
+    rpc OrderBlock(OrderBlockRequest) returns (OrderBlockResponse){
+        option (google.api.http) = {
+          post : "/v1/order/block"
+          body : "*"
+        };
+    };
+
+    rpc ConfirmOrder(ConfirmOrderRequest) returns (ConfirmOrderResponse){
+        option (google.api.http) = {
+            put : "/v1/order/confirm"
+            body : "*"
+        };
+    };
+
+    rpc FinishService(FinishServiceRequest) returns (FinishServiceResponse){
+        option (google.api.http) = {
+            put : "/v1/order/finish"
+            body : "*"
+        };
+    };
+}
+
+message OrderBlockRequest {
+    uint32 userId = 1;
+    uint32 blockId = 2;
+}
+
+message OrderBlockResponse {
+   string message = 1;
+   string status = 2;
+   BlockOrder order = 3;
+}
+
+message ListOrderRequest {
+    uint32 userId = 1;
+    uint64 date = 2;
+}
+message ListOrderResponse {
+  repeated BlockOrder orders = 1;
+
+}
+
+message ConfirmOrderRequest {
+    uint32 orderId = 1;
+}
+message ConfirmOrderResponse{
+    string message = 1;
+    string status = 2;
+    BlockOrder blockOrder = 3;
+}
+
+message FinishServiceRequest {
+    uint32 orderBlockId = 1;
+}
+
+message FinishServiceResponse {
+   string status = 1;
+   string message = 2;
+}
+
+message UserHistoryOrder{
+    uint32 id = 1;
+    BlockOrder order = 2;
+    Review review = 3;
+}
+
+message BlockOrder{
+   uint32 id = 1;
+   UserBlockDate userBlockDate = 2;
+   User user = 3;
+   string status =4;
+}
+
+message User {
+  uint32 id = 1;
+  string email = 2;
+  string username = 3;
+  string passwordHash = 4;
+  Profile profile = 5;
+  string deviceToken = 6;
+}
+
+message Profile {
+  uint32 id = 1;
+  string avatar = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string birthdate = 5;
+  uint32 sex = 6;
+  Province province = 7;
+  double starRate = 8;
+  string description = 9;
+}
+
+message Province {
+  uint32 provinceId = 1;
+  string provinceName = 2;
+}
+
+
+message Review {
+  User userReviewed  = 1;
+  uint64 rate = 2;
+  uint64 userId = 3;
+  string description = 4;
+}
+
+message UserBlockDate {
+  uint32 id = 1;
+  Block block = 2;
+  string blockDate = 3;
+  string description = 4;
+  string status = 5;
+  double price = 6;
+}
+
+message Block {
+    uint32 id = 1;
+    string description = 2;
+    string name = 3;
+    string hourStart = 4;
+    string hourEnd = 5;
+}

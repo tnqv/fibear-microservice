@@ -1,0 +1,22 @@
+{
+    "development" : {
+        "PortSite" : 3031,
+        "DatabaseConfig" : {
+            "DBHost" : "database",
+            "DBUser" : "root",
+            "DBName" : "fibear",
+            "DBPort" : 3306,
+            "DBPassword" : "password"
+        }
+    },
+    "production" : {
+        "PortSite" : 3031,
+        "DatabaseConfig" : {
+            "DBHost" : "172.17.0.3",
+            "DBUser" : "root",
+            "DBName" : "fibear",
+            "DBPort" : 3306,
+            "DBPassword" : "izei0gaivee0aepeetixohK1eech7Pun"
+        }
+    }
+}

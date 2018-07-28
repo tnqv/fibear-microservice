@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+package auth;
+
+service Auth {
+  rpc Login (LoginRequest) returns (LoginResponse){
+    option (google.api.http) = {
+         post: "/v1/auth/login"
+         body: "*"
+      };
+  };
+
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse){
+    option (google.api.http) = {
+        put: "/v1/auth/refreshToken"
+        body: "*"
+    };
+  };
+}
+
+message RefreshTokenRequest {
+    uint32 userId = 1;
+    string token = 2;
+}
+
+message RefreshTokenResponse {
+    string status = 1;
+    string message = 2;
+}
+
+// The request message containing the username and password.
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+// The response message containing the JWT token.
+message LoginResponse {
+  string token = 1;
+  User user = 2;
+}
+
+// The user message containing the user.
+message User {
+  uint32 id = 1;
+  string email = 2;
+  string username = 3;
+  string passwordHash = 4;
+  uint32 roleId = 5;
+  Profile profile = 6;
+  string deviceToken = 7;
+}
+
+message Profile {
+  uint32 id = 1;
+  string avatar = 2;
+  string firstname = 3;
+  string lastname = 4;
+  string birthdate = 5;
+  uint32 sex = 6;
+  Province province = 7;
+  double starRate = 8;
+}
+
+message Province {
+  uint32 provinceId = 1;
+  string provinceName = 2;
+}
