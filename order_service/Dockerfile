@@ -1,10 +1,15 @@
-FROM golang:1.7
+FROM golang:latest
 
 WORKDIR /go/src/app
 COPY . .
 COPY ./pb /go/src/app/pb
 COPY ./common /go/src/app/common
 RUN go get -d -v ./...
+RUN rm -rf /go/src/github.com/appleboy/gorush/vendor/google.golang.org/grpc
 RUN go build -v ./...
 
-EXPOSE 7800
+ADD run.sh /root/start.sh
+
+CMD ["/bin/bash", "/root/start.sh"]
+
+EXPOSE 7802

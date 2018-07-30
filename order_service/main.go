@@ -2,10 +2,10 @@ package main
 
 import(
 	"flag"
-	common "./common"
+	common "app/common"
 	"log"
 	"google.golang.org/grpc"
-	pb "./pb"
+	pb "app/pb"
 	"net"
 )
 
@@ -17,9 +17,9 @@ func main(){
 	)
 
 	if environment = false ; environment == false {
-			listenAddr = flag.String("listen-addr", "127.0.0.1:7802", "HTTP listen address.")
+			listenAddr = flag.String("listen-addr", ":7802", "HTTP listen address.")
 	} else {
-			listenAddr = flag.String("listen-addr", "0.0.0.0:7802", "HTTP listen address.")
+			listenAddr = flag.String("listen-addr", ":7802", "HTTP listen address.")
 	}
 
 	log.Println("Order service starting...")

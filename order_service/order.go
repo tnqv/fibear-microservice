@@ -12,8 +12,8 @@ import (
 	"google.golang.org/grpc/metadata"
 	"github.com/appleboy/gorush/rpc/proto"
 	"time"
-	pb "./pb"
-	common "./common"
+	pb "app/pb"
+	common "app/common"
 )
 
 type orderServer struct{

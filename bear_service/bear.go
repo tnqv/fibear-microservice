@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"errors"
-	"github.com/appleboy/gorush/rpc/proto"
+	protoRush "github.com/appleboy/gorush/rpc/proto"
 	pb "app/pb"
 	common "app/common"
 )
@@ -437,12 +437,12 @@ func sendNotification(deviceToken string,opts...string){
 			log.Printf("cannot connect to push notification service: %v",err)
 	}
 	defer conn.Close()
-	c := proto.NewGorushClient(conn)
-	r,err := c.Send(context.Background(),&proto.NotificationRequest{
+	c := protoRush.NewGorushClient(conn)
+	r,err := c.Send(context.Background(),&protoRush.NotificationRequest{
 				Platform: 2,
 				Tokens: []string{deviceToken},
 				Message: opts[0],
-				Alert: &proto.Alert{
+				Alert: &protoRush.Alert{
 					Title:    opts[1],
 					Body:     opts[2],
 					Subtitle: opts[3],

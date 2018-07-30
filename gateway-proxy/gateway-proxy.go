@@ -10,7 +10,6 @@ import (
 	auth "app/pb/auth"
 	bear "app/pb/bear"
 	order "app/pb/order"
-	admin "app/pb/admin"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -19,8 +18,8 @@ import (
 var (
 	authEndPoint = flag.String("auth_endpoint", "auth_service:7800", "authenticate of AuthService")
 	bearEndPoint = flag.String("bear_endpoint","bear_service:7801","bear service")
-	orderEndPoint = flag.String("order_endpoint","127.0.0.1:7802","order service")
-	adminEndPoint = flag.String("admin_endpoint","127.0.0.1:7807","admin service")
+	orderEndPoint = flag.String("order_endpoint","order_service:7802","order service")
+  // adminEndPoint = flag.String("admin_endpoint","127.0.0.1:7807","admin service")
 )
 
 // allowCORS allows Cross Origin Resoruce Sharing from any origin.
@@ -62,10 +61,10 @@ func newGateway(ctx context.Context,opts ...runtime.ServeMuxOption)(http.Handler
 			return nil,err
 		}
 
-		err = admin.RegisterAdminHandlerFromEndpoint(ctx,mux,*adminEndPoint,dialOpts)
-		if err != nil {
-			return nil,err
-		}
+		// err = admin.RegisterAdminHandlerFromEndpoint(ctx,mux,*adminEndPoint,dialOpts)
+		// if err != nil {
+		// 	return nil,err
+		// }
 
 		return mux,nil
 }

@@ -24,6 +24,7 @@ services:
      - "7800:7800"
     depends_on:
      - gateway_service
+     - database
     networks:
      - fibear-network
   bear_service:
@@ -33,6 +34,17 @@ services:
       - "7801:7801"
     depends_on:
       - gateway_service
+      - database
+    networks:
+      - fibear-network
+  order_service:
+    container_name: order_service
+    build: ./order_service
+    ports:
+      - "7802:7802"
+    depends_on:
+      - gateway_service
+      - database
     networks:
       - fibear-network
 
